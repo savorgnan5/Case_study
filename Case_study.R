@@ -80,3 +80,22 @@ p1= ggplot(dat= plot1, aes(x= Alcohol_content, y= Bitterness))
 p2= p1 +geom_point(shape=1) + geom_smooth(method = "lm") 
 p3= p2 + ggtitle("Bitterness per Alcohol Content")  
 p3
+## In the following code we found the most frequest beers style and name in the US territory.
+beers %>% count(Style) %>% arrange(desc(n)) -> BeersStyle
+BeersStyle
+beers %>% count(Name) %>% arrange(desc(n)) -> BeersName
+BeersName
+
+## In the following code we find the most frequent beers style and name by state in the Us territory. NameState is the most 
+## frequent beer name by state in the US territory.NameStyle is the most frequent beer name per state in the  US territory. 
+
+
+
+
+
+combined %>% group_by(Name.y, State) %>% summarize(PerName = max(Name.y))%>% arrange(desc(PerStyle)) ->NameState
+NameState
+combined %>% group_by(Style) %>% summarize(PerState= max(Style)) %>% arrange(desc(PerState)) ->NameStyle
+NameStyle
+
+
