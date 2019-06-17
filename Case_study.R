@@ -3,6 +3,7 @@
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(reshape2)
 
 
 ## We are loading the dataset from the beers and the dataset from breweries in the chunk code below.
@@ -87,12 +88,14 @@ beers %>% count(Name) %>% arrange(desc(n)) -> BeersName
 BeersName
 
 
-##Just trying ( this code now does not work)
+##Just trying ( this code now does not work though)
 ## In the following code we find the most frequent beers style and name by state in the Us territory. NameState is the most 
 ## frequent beer name by state in the US territory.NameStyle is the most frequent beer name per state in the  US territory. 
-combined %>% group_by(State) %>% summarize(PerState= n_distinct(Name.y)) %>% arrange(desc(PerState))%>% spread(PerState, value = count(PerState)) ->NameName
-NameName
-combined %>% select(Name.y) %>% spread(value, measure, State) ->NameStyle
-NameStyle
 
+NameStyle<- dcast(combined, State + Name.x ~Style, value.var= sum)
 
+combined$Name.x<- as.vector(combined$Name)
+combined$Style<- as.vector(combined$Style)
+combined %>% group_by(State, Style) %>% dplyr::summarize(Stile = n_distinct(Style),
+                                                         Name = n_distinct(Name.x)) %>% arrange(desc(Name)) -> NS
+NS
