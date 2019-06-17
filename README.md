@@ -5,7 +5,7 @@ https://datascience.smu.edu
 Fabio Savorgnan  
 Jeremy Otsap  
   
-###Description  
+### Description  
   
 The Beers dataset contains a list of 2410 US craft beers and Breweries dataset contains 558 US breweries. The datasets descriptions are as follows
   
