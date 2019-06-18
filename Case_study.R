@@ -25,10 +25,21 @@ brew$State<- as.character(brew$State)
 brew$Brew_ID<- as.integer(brew$Brew_ID)
 brew$Name<-  as.character(brew$Name)
 brew %>% group_by(State) %>% summarize(numBreweries = n_distinct(Name)) -> numBreweries
+# FYI: just so you know an easy way to do the above:
+# table(brew$State) %>% as.data.frame()
+
 numBreweries
 numBreweries$numBreweries<- as.integer(numBreweries$numBreweries) 
+# When I ran the above code it was already an int
+# Did you have a problem with that? Let me know
 numBreweries <- arrange(numBreweries, desc(numBreweries))
 numBreweries
+
+# renaming Name.x to Brewery_Name
+colnames(combined)[2] <- "Brewery_Name"
+# renaming Name.y to Beer_Name
+colnames(combined)[5] <- "Beer_Name"
+
 
 ##. In the following code chunk we merge beer data with the breweries data. We print the first 6 observations and 
 ## the last six observations to check the merged file in order to explore the dataset. Combined is the combined dataset.
@@ -43,6 +54,12 @@ tail(combined, 6)
 
 ## In the following chunk code we report the number of NA's in each column of the combined dataset. NA_count is the amount 
 ## of NA in each column in the combined dataset.
+
+## HEY FABIO: JUST A THOUGHT
+## Lets take out the Brew_ID and Beer_ID before looking for NA values
+## since we really dont care about those fields for analysis, no?
+
+combined[,c(-1,-6)] -> combined
 
 na_count <-sapply(combined, function(y) sum(length(which(is.na(y)))))
 na_count
