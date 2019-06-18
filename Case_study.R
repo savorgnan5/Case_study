@@ -25,8 +25,6 @@ brew$State<- as.character(brew$State)
 brew$Brew_ID<- as.integer(brew$Brew_ID)
 brew$Name<-  as.character(brew$Name)
 brew %>% group_by(State) %>% summarize(numBreweries = n_distinct(Name)) -> numBreweries
-# FYI: just so you know an easy way to do the above:
-# table(brew$State) %>% as.data.frame()
 
 numBreweries
 numBreweries$numBreweries<- as.integer(numBreweries$numBreweries) 
@@ -54,12 +52,6 @@ tail(combined, 6)
 
 ## In the following chunk code we report the number of NA's in each column of the combined dataset. NA_count is the amount 
 ## of NA in each column in the combined dataset.
-
-## HEY FABIO: JUST A THOUGHT
-## Lets take out the Brew_ID and Beer_ID before looking for NA values
-## since we really dont care about those fields for analysis, no?
-
-combined[,c(-1,-6)] -> combined
 
 na_count <-sapply(combined, function(y) sum(length(which(is.na(y)))))
 na_count
@@ -116,3 +108,10 @@ combined$Style<- as.vector(combined$Style)
 combined %>% group_by(State, Style) %>% dplyr::summarize(Stile = n_distinct(Style),
                                                          Name = n_distinct(Name.x)) %>% arrange(desc(Name)) -> NS
 NS
+
+# Starting with something like this?
+# also because State is a factor not a string, maybe that is an issue?
+# I know that count() and tally() need it to be a char
+spread(combined, State, Style)
+spread(combined, Style, State)
+                  
