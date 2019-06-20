@@ -87,11 +87,14 @@ na_count
 ## We Plot a bar chart to compare the median alcohol content and international bitterness unit per beer for each state 
 ## from the combined dataset. We used the ggplot library to perform the plot.
 
-combined %>% group_by(State) %>% summarize(Alcohol_content = median(ABV, na.rm = TRUE),
-                                          Bitterness= median(IBU, na.rm = TRUE)) ->plot1
+combined %>% group_by(State) %>% summarize(Alcohol_content = median(ABV, na.rm = TRUE), Bitterness= median(IBU, na.rm = TRUE)) ->plot1
 plot1
 
+# summarize(group_by(combined, State), AlcoholContent = median(ABV, na.rm = T), Bitterness = median(IBU, na.rm = T) ) -> altPlot1
+
 ggplot(data=plot1, aes(x= State, y=Alcohol_content, fill= Bitterness)) + geom_bar(stat="identity") + ggtitle("Bitterness per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =4 , angle =45, hjust = 1, vjust = 1)) 
+
+                  
 #p1= ggplot(data=plot1, aes(x= State, y=Alcohol_content, fill= Bitterness)) 
 #p2= p1 + geom_bar(stat="identity")
 #p3= p2 + ggtitle("Bitterness per Alcohol Content") + labs(x= "States",  y= "Alcohol Content")
@@ -106,9 +109,17 @@ ggplot(data=plot1, aes(x= State, y=Alcohol_content, fill= Bitterness)) + geom_ba
 ## The following code show the state with the maximum alcoholic (ABV) beer, and the state with 
 ## the most bitter (IBU) beer.The maximum alcoholic (ABV) beer, and bitter (IBU) beer is represented by maxal.
 
+
+
+#### NOTE THIS JUST GIVES MAX VALUES FOR EACH COLUMN
 maxal<- sapply(plot1, max, na.rm = TRUE)
 maxal
  
+# Highest Alcohol Content
+head(beers[order(beers$ABV, decreasing = T, na.last = T),],1)
+
+# Highest Bitterness
+head(beers[order(beers$IBU, decreasing = T, na.last = T),],1)
 
 
 
@@ -122,7 +133,19 @@ summary(beers$ABV)
 
 
 ## QUESTION 7: ABV & IBU RELATIONSHIP
+##### MUCH EASIER WAY TO DO THIS ####
 
+# Scatterplot btween Alcohol & Bitterness
+plot(combined$ABV, combined$IBU)
+
+# tests R correlation between ABV & IBU ignoring NA entries
+cor.test(combined$ABV, combined$IBU, na.action(na.omit("NA")))
+
+#predicting bitterness based on alcohol content
+beer.lm <- lm(combined$IBU ~ combined$ABV, na.action(na.omit("NA")))
+summary(beer.lm)
+
+                  
 ## In the following code using ggplot we draw a scatter plot between the bitterness and alcohol content.
 ## It look like there is a trend toward a llinear relatioship between the 2 mentioned variable, p3 is the plot.
 p1= ggplot(dat= plot1, aes(x= Alcohol_content, y= Bitterness))
