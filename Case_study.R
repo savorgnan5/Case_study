@@ -27,9 +27,17 @@ head(brew)
 ## amount of breweries per state in the US territory.Then we ordered in descending order. Colorado and California
 ## are the states with the highest amount of breweries in their state.
 
-brew$State<- as.character(brew$State)
-brew$Brew_ID<- as.integer(brew$Brew_ID)
-brew$Name<-  as.character(brew$Name)
+# changing from factor to char
+brew$State <- as.character(brew$State)
+# changing to int
+brew$Brew_ID <- as.integer(brew$Brew_ID)
+# changing to char
+brew$Name <-  as.character(brew$Name)
+
+# removing trailing whitespace
+str_trim(brew$State, side = "left") -> brew$State
+
+
 brew %>% group_by(State) %>% summarize(numBreweries = n_distinct(Name)) -> numBreweries
 
 numBreweries
@@ -176,4 +184,36 @@ NS
 # I know that count() and tally() need it to be a char
 spread(combined, State, Style)
 spread(combined, Style, State)
-                  
+
+
+
+
+
+
+
+
+## ADDITIONAL QUESTION USING CENSUS DATA
+## NOTE WAS IN EXCEL SO NEEDED TO MANUALLY CLEAN
+## 2018 Census Data on https://www.census.gov 
+
+read.csv(file = "casestudy/population.csv", header = T) -> state_population
+state_population$State <- as.character(state_population$State)
+
+# merging census data into brewery by state data
+merge(numBreweries, state_population, by = "State") -> combined_pop
+
+# tests R correlation between Breweries & Total Population By State
+cor.test(combined_pop$Population, combined_pop$numBreweries)
+
+
+# predicting number of breweries based on population
+brew_pop.lm <- lm(combined_pop$numBreweries ~ combined_pop$Population)
+summary(brew_pop.lm)
+
+# Scatterplot between Breweries & Total Population By State
+plot(combined_pop$Population, combined_pop$numBreweries)
+abline(brew_pop.lm, col = "red")
+
+
+# write.csv(combined_pop, file = "casestudy/combined_pop.csv", row.names = F)
+
