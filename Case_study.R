@@ -103,15 +103,8 @@ plot1
 ggplot(data=plot1, aes(x= State, y=Alcohol_content, fill= Bitterness)) + geom_bar(stat="identity") + ggtitle("Bitterness per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =4 , angle =45, hjust = 1, vjust = 1)) 
 
                   
-#p1= ggplot(data=plot1, aes(x= State, y=Alcohol_content, fill= Bitterness)) 
-#p2= p1 + geom_bar(stat="identity")
-#p3= p2 + ggtitle("Bitterness per Alcohol Content") + labs(x= "States",  y= "Alcohol Content")
-#p4= p3 + theme(axis.text.x = element_text(size =4 , angle =45, hjust = 1, vjust = 1)) 
-#p4 
 
-
-
-
+   
 ## QUESTION 5: MAX IBU & ABV STATES
 
 ## The following code show the state with the maximum alcoholic (ABV) beer, and the state with 
@@ -120,8 +113,8 @@ ggplot(data=plot1, aes(x= State, y=Alcohol_content, fill= Bitterness)) + geom_ba
 
 
 #### NOTE THIS JUST GIVES MAX VALUES FOR EACH COLUMN
-maxal<- sapply(plot1, max, na.rm = TRUE)
-maxal
+# maxal<- sapply(plot1, max, na.rm = TRUE)
+# maxal
  
 # Highest Alcohol Content
 head(beers[order(beers$ABV, decreasing = T, na.last = T),],1)
@@ -131,6 +124,7 @@ head(beers[order(beers$IBU, decreasing = T, na.last = T),],1)
 
 
 
+ 
 ## QUESTION 6: SUMMARY STATS FOR ABV
 
 ##Summary statistics for the ABV variable from the beers dataset.
@@ -141,6 +135,7 @@ summary(beers$ABV)
 
 
 ## QUESTION 7: ABV & IBU RELATIONSHIP
+
 ##### MUCH EASIER WAY TO DO THIS ####
 
 # Scatterplot btween Alcohol & Bitterness
@@ -149,17 +144,15 @@ plot(combined$ABV, combined$IBU)
 # tests R correlation between ABV & IBU ignoring NA entries
 cor.test(combined$ABV, combined$IBU, na.action(na.omit("NA")))
 
-#predicting bitterness based on alcohol content
+# predicting bitterness based on alcohol content
 beer.lm <- lm(combined$IBU ~ combined$ABV, na.action(na.omit("NA")))
 summary(beer.lm)
 
                   
 ## In the following code using ggplot we draw a scatter plot between the bitterness and alcohol content.
 ## It look like there is a trend toward a llinear relatioship between the 2 mentioned variable, p3 is the plot.
-p1= ggplot(dat= plot1, aes(x= Alcohol_content, y= Bitterness))
-p2= p1 +geom_point(shape=1) + geom_smooth(method = "lm") 
-p3= p2 + ggtitle("Bitterness per Alcohol Content")  
-p3
+ggplot(dat= plot1, aes(x= Alcohol_content, y= Bitterness)) + geom_point(shape=1) + geom_smooth(method = "lm") + ggtitle("Bitterness per Alcohol Content")  
+
 ## In the following code we found frequest beers style and name in the US territory.
 beers %>% count(Style) %>% arrange(desc(n)) -> BeersStyle
 BeersStyle
@@ -167,7 +160,7 @@ beers %>% count(Name) %>% arrange(desc(n)) -> BeersName
 BeersName
 
 
-##Just trying ( this code now does not work though)
+## Just trying ( this code now does not work though)
 ## In the following code we find the most frequent beers style and name by state in the Us territory. NameState is the most 
 ## frequent beer name by state in the US territory.NameStyle is the most frequent beer name per state in the  US territory. 
 
@@ -178,16 +171,6 @@ combined$Style<- as.vector(combined$Style)
 combined %>% group_by(State, Style) %>% dplyr::summarize(Stile = n_distinct(Style),
                                                          Name = n_distinct(Name.x)) %>% arrange(desc(Name)) -> NS
 NS
-
-# Starting with something like this?
-# also because State is a factor not a string, maybe that is an issue?
-# I know that count() and tally() need it to be a char
-spread(combined, State, Style)
-spread(combined, Style, State)
-
-
-
-
 
 
 
@@ -214,6 +197,6 @@ summary(brew_pop.lm)
 plot(combined_pop$Population, combined_pop$numBreweries)
 abline(brew_pop.lm, col = "red")
 
-
+# outputting file
 # write.csv(combined_pop, file = "casestudy/combined_pop.csv", row.names = F)
 
