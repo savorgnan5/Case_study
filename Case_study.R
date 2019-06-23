@@ -40,10 +40,21 @@ numBreweries
 tail(numBreweries)
 
 # creating chart for breweries
+# Version 1
 p1= numBreweries %>% ggplot(aes(x = reorder(State,-numBreweries),  y = numBreweries, fill = State)) 
 p2= p1+ geom_col() + labs(title = "Breweries Per State", x= "State", y= "Number of Breweries") 
 p3= p2+ theme( axis.text = element_text(size = rel(0.4),angle =45, hjust = 1, vjust = 1) ) 
 p3
+
+# Version 2
+p1= numBreweries %>% ggplot(aes(x = reorder(State,-numBreweries),  y = numBreweries, fill = State)) 
+p2= p1+ geom_bar(stat="identity") 
+g3= g2+coord_flip()
+g4= g3+theme(legend.position='none')
+g5= g4+ scale_fill_gradient2(midpoint=mean(numBreweries$numBreweries),low='red', mid='snow3', high='black', space='Lab')
+g6= g5+theme_classic()+labs(x="State", y="Nunber of Breweries", legend="Nunber of Breweries")+ ggtitle("Breweries Per State")
+g7= g6+theme(plot.title = element_text(hjust = 0.5),axis.text=element_text(size=5)) 
+g7
 ## QUESTION 2: MERGED DATA SET
 
 ## In the following code chunk we merge beer data with the breweries data. We print the first 6 observations and 
@@ -86,8 +97,18 @@ na_count
 combined %>% group_by(State) %>% summarize(Alcohol_content = median(ABV, na.rm = TRUE), Bitterness= median(IBU, na.rm = TRUE)) ->plot1
 plot1
 
-ggplot(data=plot1, aes(x= reorder(State,-Alcohol_content), y=Alcohol_content, fill= Bitterness)) + geom_bar(stat="identity") + ggtitle("Bitterness per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =4 , angle =45, hjust = 1, vjust = 1)) 
+# Version 1
+ggplot(data=plot1, aes(x= reorder(State,-Alcohol_content), y=Alcohol_content, fill= Bitterness)) + geom_bar(stat="identity") + ggtitle("Bitterness per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =4 , angle =45, hjust = 1, vjust = 1))
 
+# Version 2
+g1= ggplot(plot1, aes(x=reorder(State,-Alcohol_content),y=Alcohol_content, fill=Bitterness))   
+g2=  g1 + geom_bar(stat="identity") 
+g3= g2+coord_flip(ylim=c(.04,.0650))
+g4= g3+theme(legend.position='none')
+g5= g4+ scale_fill_gradient2(midpoint=median(plot1$Alcohol_content),low='red', mid='snow3', high='black', space='Lab')
+g6= g5+theme_classic()+labs(x="State", y="ABV", legend="ABV")+ ggtitle("Median ABV by state")
+g7= g6+theme(plot.title = element_text(hjust = 0.5),axis.text=element_text(size=5)) 
+g7
 # The top 5 state with more alcohol content, which is HAC_S, and the top 5 state with the most bitter beer, which is HB_S
 #Furtheremore, we proceed to plot HAC_S and HB_S
 HAC_S<-head(combined[order(combined$ABV, decreasing = T, na.last = T),],6)
@@ -141,7 +162,7 @@ boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.ma
 
 
 # Scatterplot between Alcohol & Bitterness
-plot(combined$ABV, combined$IBU, main="Scatterplot Between Alcohol Content & Bitterness", xlab = "Alcohol Content", ylab = "Alcohol Bitterness")
+grid(plot(combined$ABV, combined$IBU, main="Scatterplot Between Alcohol Content & Bitterness", xlab = "Alcohol Content", ylab = "Alcohol Bitterness"))
 
 # tests R correlation between ABV & IBU ignoring NA entries
 cor.test(combined$ABV, combined$IBU, na.action(na.omit("NA")))
@@ -181,7 +202,7 @@ brew_pop.lm <- lm(combined_pop$numBreweries ~ combined_pop$Population)
 summary(brew_pop.lm)
 
 # Scatterplot Between Breweries & Total Population By State
-plot(combined_pop$Population, combined_pop$numBreweries,main="Relationship of Breweries & Total Population", xlab = "Population by State", ylab = "Number of Breweries")
+grid(plot(combined_pop$Population, combined_pop$numBreweries,main="Relationship of Breweries & Total Population", xlab = "Population by State", ylab = "Number of Breweries"))
 abline(brew_pop.lm, col = "red")
 
 #Examining correlation between Number of Breweries and Median Alcohol Content.The dataset albrew have the variable 
@@ -192,7 +213,7 @@ numBreweries<-as.data.frame(numBreweries)
 plot1<-as.data.frame(plot1)
 albrew<- merge(plot1,numBreweries, by= "State")
 head(albrew)
-plot(albrew$numBreweries, albrew$Alcohol_content, main="Relationship Median Alcohol and Breweries", xlab = "Number of Breweries", ylab = "Median Alcohol Content")
+grid(plot(albrew$numBreweries, albrew$Alcohol_content, main="Relationship Median Alcohol and Breweries", xlab = "Number of Breweries", ylab = "Median Alcohol Content"))
 abline(brew_pop.lm, col = "red")
 
 # Examining correlation between population and median alcohol content.The dataset albrew have the variable 
@@ -203,7 +224,7 @@ abline(brew_pop.lm, col = "red")
 # alcohol content.
 merge(albrew, state_population, by = "State") ->alpop 
 head(alpop)
-plot(alpop$Population, alpop$Alcohol_content, main="Relationship Median Alcohol and Population", xlab = "Population", ylab = "Median Alcohol Content")
+grid(plot(alpop$Population, alpop$Alcohol_content, main="Relationship Median Alcohol and Population", xlab = "Population", ylab = "Median Alcohol Content"))
 abline(brew_pop.lm, col = "red")
 
 # outputting file
