@@ -37,11 +37,13 @@ brew %>% group_by(State) %>% summarize(numBreweries = n_distinct(Name)) -> numBr
 numBreweries
 numBreweries <- arrange(numBreweries, desc(numBreweries))
 numBreweries
+tail(numBreweries)
 
 # creating chart for breweries
-numBreweries %>% ggplot(aes(x = State, y = numBreweries, fill = State)) + geom_col() + labs(title = "Breweries Per State") + theme( axis.text = element_text(size = rel(0.4),angle =45, hjust = 1, vjust = 1) )
-
-
+p1= numBreweries %>% ggplot(aes(x = reorder(State,-numBreweries),  y = numBreweries, fill = State)) 
+p2= p1+ geom_col() + labs(title = "Breweries Per State", x= "State", y= "Number of Breweries") 
+p3= p2+ theme( axis.text = element_text(size = rel(0.4),angle =45, hjust = 1, vjust = 1) ) 
+p3
 ## QUESTION 2: MERGED DATA SET
 
 ## In the following code chunk we merge beer data with the breweries data. We print the first 6 observations and 
@@ -84,27 +86,27 @@ na_count
 combined %>% group_by(State) %>% summarize(Alcohol_content = median(ABV, na.rm = TRUE), Bitterness= median(IBU, na.rm = TRUE)) ->plot1
 plot1
 
-ggplot(data=plot1, aes(x= State, y=Alcohol_content, fill= Bitterness)) + geom_bar(stat="identity") + ggtitle("Bitterness per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =4 , angle =45, hjust = 1, vjust = 1)) 
+ggplot(data=plot1, aes(x= reorder(State,-Alcohol_content), y=Alcohol_content, fill= Bitterness)) + geom_bar(stat="identity") + ggtitle("Bitterness per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =4 , angle =45, hjust = 1, vjust = 1)) 
 
 # The top 5 state with more alcohol content, which is HAC_S, and the top 5 state with the most bitter beer, which is HB_S
 #Furtheremore, we proceed to plot HAC_S and HB_S
 HAC_S<-head(combined[order(combined$ABV, decreasing = T, na.last = T),],6)
 HAC_S
-ggplot(data=HAC_S, aes(x= State, y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Top State per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
+ggplot(data=HAC_S, aes(x= reorder(State,-ABV), y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Top State per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
 
 HB_S<-head(combined[order(combined$IBU, decreasing = T, na.last = T),],6)
 HB_S
-ggplot(data=HB_S, aes(x= State, y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Top State per Beer Bitterness") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
+ggplot(data=HB_S, aes(x= reorder(State,-IBU), y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Top State per Beer Bitterness") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
 
 # The bottom 5 lowest state with alcohol content, which is LAC_S, and the bottom 5 lowest state with bitter beer, which is LB_S
 #Furtheremore, we proceed to plot HAC_S and HB_S
 LAC_S<-tail(combined[order(combined$ABV, decreasing = T, na.last = F),],6)
 LAC_S
-ggplot(data=LAC_S, aes(x= State, y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Lowest per Alcohol Content per State") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
+ggplot(data=LAC_S, aes(x= reorder(State,-ABV), y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Lowest per Alcohol Content per State") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
 
 LB_S<-tail(combined[order(combined$IBU, decreasing = T, na.last = F),],7)
 LB_S
-ggplot(data=LB_S, aes(x= State, y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Lowest Beer Bitterness per State") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
+ggplot(data=LB_S, aes(x= reorder(State,-IBU), y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Lowest Beer Bitterness per State") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
 
                   
 ## QUESTION 5: MAX IBU & ABV STATES
