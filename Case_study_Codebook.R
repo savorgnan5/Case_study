@@ -225,7 +225,7 @@ state_population$State <- as.character(state_population$State)
 merge(numBreweries, state_population, by = "State") -> combined_pop
 
 # Tests R correlation between Breweries & Total Population By State. Corr 0.6210315, poor correlation.
-cor(combined_pop$Population, combined_pop$numBreweries)
+cor.test(combined_pop$Population, combined_pop$numBreweries)
 
 
 # Predicting number of breweries based on population. The population number poorly predict the number of breweries
