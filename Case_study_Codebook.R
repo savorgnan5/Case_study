@@ -128,28 +128,28 @@ g7= g6+theme(plot.title = element_text(hjust = 0.5),axis.text=element_text(size=
 g7
 # The top 5 state with more alcohol content, which is HAC_S. The top 5 state with the most bitter beer, which is HB_S
 # Furtheremore, we proceed to plot HAC_S and HB_S. Previously we clean the data in order no to have repeated the same state
-# with the function distint.
+# with the function distint.The x1 is the plot for alcohol content, x2 is the plot for bitterness.
 df_unique <-distinct(combined[order(combined$ABV, decreasing = T, na.last = T),], State, .keep_all = TRUE)
 HAC_S <-head(df_unique,5)
-ggplot(data=HAC_S, aes(x= reorder(State,-ABV), y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Top State per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1))
-
+x1<- ggplot(data=HAC_S, aes(x= reorder(State,-ABV), y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Top State per Alcohol Content") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1))
+x1
 HB_S<-head(combined[order(combined$IBU, decreasing = T, na.last = T),],5)
 HB_S
-ggplot(data=HB_S, aes(x= reorder(State,-IBU), y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Top State per Beer Bitterness") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
-
+x2<-ggplot(data=HB_S, aes(x= reorder(State,-IBU), y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Top State per Beer Bitterness") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
+x2
 # The bottom 5 lowest state with alcohol content, which is LAC_S. The bottom 5 lowest state with bitterness per beer, which is LB_S
 # Furtheremore, we proceed to plot HAC_S and HB_S. Previously we clean the data in order no to have repeated the same state
-# with the function distint.
+# with the function distint. The x3 is the plot for alcohol content, x4 is the plot for bitterness.
 LAC_S<-tail(combined[order(combined$ABV, decreasing = T, na.last = F),],5)
 LAC_S
-ggplot(data=LAC_S, aes(x= reorder(State,-ABV), y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Lowest Alcohol Content per State") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
-
+x3<-ggplot(data=LAC_S, aes(x= reorder(State,-ABV), y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Lowest Alcohol Content per State") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
+x3
 
 df_unique <-distinct(combined[order(combined$IBU, decreasing = T, na.last = F),], State, .keep_all = TRUE)
 LB_S <-tail(na.omit(df_unique),5)
 LB_S
-ggplot(data=LB_S, aes(x= reorder(State,-IBU), y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Lowest Beer Bitterness per State") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
-
+x4<-ggplot(data=LB_S, aes(x= reorder(State,-IBU), y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Lowest Beer Bitterness per State") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
+x4
                   
 ## QUESTION 5: MAX IBU & ABV STATES
 
@@ -180,16 +180,16 @@ HB_S
 # this summary
 summary(beers$ABV)
 boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Alcohol Content", font.lab=3, col="darkgreen")
+
 summary(beers$IBU)
 boxplot(beers$IBU, main=toupper("Bitterness in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Bitterness", font.lab=3, col="darkgreen")
-
 ## QUESTION 7: ABV & IBU RELATIONSHIP
 
 
 # Scatterplot between Alcohol & Bitterness. It look like bitterness of 42 and alcohol content of 0.06 would be a good 
 # combination in a particular beer type of production.
-grid(plot(combined$ABV, combined$IBU, main="Scatterplot Between Alcohol Content & Bitterness", xlab = "Alcohol Content", ylab = "Alcohol Bitterness"))
-
+c <-grid(plot(combined$ABV, combined$IBU, main="Scatterplot Between Alcohol Content & Bitterness", xlab = "Alcohol Content", ylab = "Alcohol Bitterness"))
+c
 # Tests R correlation between ABV & IBU ignoring NA entries. Cor 0.67, 
 #this is a weak correlation between the ABV and IBU
 cor.test(combined$ABV, combined$IBU, na.action(na.omit("NA")))
