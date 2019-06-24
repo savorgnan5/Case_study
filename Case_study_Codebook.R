@@ -10,6 +10,23 @@ library(tidyverse)
 ## We are loading the dataset from the beers and the dataset from breweries in the chunk code below.
 ##The beers dataset is bears, the breweries dataset is brew.
 
+#Beers.csv:
+
+#Name: Name of the beer.
+#Beer_ID: Unique identifier of the beer.
+#ABV: Alcohol by volume of the beer.
+#IBU: International Bitterness Units of the beer.
+#Brewery_ID: Brewery id associated with the beer.
+#Style: Style of the beer.
+#Ounces: Ounces of beer.
+
+#Breweries.csv:
+
+#Brew_ID: Unique identifier of the brewery.
+#Name: Name of the brewery.
+#City: City where the brewery is located.
+#State: U.S. State where the brewery is located.
+
 url<-"https://raw.githubusercontent.com/BivinSadler/MSDS-6306-Doing-Data-Science/master/Unit%207/Beers.csv"
 beers <- read.csv(url(url), sep = ",", header = TRUE)
 head(beers) 
@@ -20,10 +37,10 @@ head(brew)
 
 ## QUESTION 1: BREWERIES PER STATE
 
-## In the following code we count how many breweries are pers state in the US territory. NumBreweries describe the 
-## amount of breweries per state in the US territory.Then we ordered in descending order. Colorado and California
-## are the states with the highest amount of breweries in their state. The states with only one brewere are DC,ND,SD
-## WD.
+# In the following code we count how many breweries are pers state in the US territory. NumBreweries describe the 
+# amount of breweries per state in the US territory.Then we ordered in descending order the nunber of breweries.
+# Colorado and California are the states with the highest amount of breweries in their state. 
+#The states with only one brewere are DC, ND, SD, WD. We used the pipe function from the dplyr library to generate the code
 
 # changing from factor to char
 brew$State <- as.character(brew$State)
@@ -32,7 +49,7 @@ brew$Brew_ID <- as.integer(brew$Brew_ID)
 # changing to char
 brew$Name <-  as.character(brew$Name)
 
-# removing trailing whitespace
+# removing trailing whitespace with str_trim
 str_trim(brew$State, side = "left") -> brew$State
 brew %>% group_by(State) %>% summarize(numBreweries = n_distinct(Name)) -> numBreweries
 numBreweries
@@ -40,7 +57,7 @@ numBreweries <- arrange(numBreweries, desc(numBreweries))
 numBreweries
 tail(numBreweries)
 
-# creating chart for breweries in the US territory by States.
+# Creating chart for breweries in the US territory by States using ggplot.
 # Version 1
 p1= numBreweries %>% ggplot(aes(x = reorder(State,-numBreweries),  y = numBreweries, fill = State)) 
 p2= p1+ geom_col() + labs(title = "Breweries Per State", x= "State", y= "Number of Breweries") 
@@ -57,8 +74,8 @@ g6= g5+theme(plot.title = element_text(hjust = 0.5),axis.text=element_text(size=
 g6
 ## QUESTION 2: MERGED DATA SET
 
-## In the following code chunk we merge beer data with the breweries data. We print the first 6 observations and 
-## the last six observations to check the merged file in order to explore the dataset. Combined is the combined dataset.
+# In the following code chunk we merge beer data with the breweries data. We print the first 6 observations and 
+# the last six observations to check the merged file in order to explore the dataset. Combined is the combined dataset.
 
 beers$Brew_ID<-beers$Brewery_id
 beers$Brewery_id<-NULL
@@ -77,8 +94,8 @@ tail(combined, 6)
 
 ## QUESTION 3: MISSING DATA
 
-## In the following chunk code we report the number of NA's in each column of the combined dataset. NA_count is the amount 
-## of NA in each column in the combined dataset.
+# In the following chunk code we report the number of NA's in each column of the combined dataset. NA_count is the amount 
+# of NA in each column in the combined dataset. There are 62 missing value in ABV(Alcohol content) and 1005 in IBU(bitterness)
 
 na_count <-sapply(combined, function(y) sum(length(which(is.na(y)))))
 na_count
@@ -86,13 +103,13 @@ na_count
 
 ## QUESTION 4: MEDIAN ALCOHOL CONTENT
 
-## We compute the median alcohol content and international bitterness unit in a beer for each state from the combined dataset.
-## in order to compute the alcohol content and international bitterness unit in a beer for each state from the combined dataset
-## We grouped the combined dataset by State, then we sumarized by alcohol content and international bitterness unit per beer using
-## the median function. We decided to get rid of the NA values, we used the pipe function from the dplyr library to design this code.
-## The final product of the function is plot1. 
+# We compute the median alcohol content and international bitterness unit in a beer for each state from the combined dataset.
+# in order to compute the alcohol content and international bitterness unit in a beer for each state from the combined dataset
+# We grouped the combined dataset by State, then we sumarized by alcohol content and international bitterness unit per beer using
+# the median function. We decided to get rid of the NA values, we used the pipe function from the dplyr library to design this code.
+# The final product of the function is plot1. 
 ## We Plot a bar chart to compare the median alcohol content and international bitterness unit per beer for each state 
-## from the combined dataset. We used the ggplot library to perform the plot.
+# from the combined dataset. We used the ggplot library to perform the plot.
 
 combined %>% group_by(State) %>% summarize(Alcohol_content = median(ABV, na.rm = TRUE), Bitterness= median(IBU, na.rm = TRUE)) ->plot1
 plot1
@@ -110,7 +127,7 @@ g6= g5+theme_classic()+labs(x="State", y="ABV", legend="ABV")+ ggtitle("Median A
 g7= g6+theme(plot.title = element_text(hjust = 0.5),axis.text=element_text(size=5)) 
 g7
 # The top 5 state with more alcohol content, which is HAC_S. The top 5 state with the most bitter beer, which is HB_S
-#Furtheremore, we proceed to plot HAC_S and HB_S. Previously we clean the data in order no to have repeated the same state
+# Furtheremore, we proceed to plot HAC_S and HB_S. Previously we clean the data in order no to have repeated the same state
 # with the function distint.
 df_unique <-distinct(combined[order(combined$ABV, decreasing = T, na.last = T),], State, .keep_all = TRUE)
 HAC_S <-head(df_unique,5)
@@ -120,8 +137,9 @@ HB_S<-head(combined[order(combined$IBU, decreasing = T, na.last = T),],5)
 HB_S
 ggplot(data=HB_S, aes(x= reorder(State,-IBU), y=IBU, fill= ABV)) + geom_bar(stat="identity") + ggtitle("Top State per Beer Bitterness") + labs(x= "States",  y= "Beer Bitterness") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
 
-# The bottom 5 lowest state with alcohol content, which is LAC_S.The bottom 5 lowest state with bitterness per beer, which is LB_S
-# Furtheremore, we proceed to plot HAC_S and HB_S
+# The bottom 5 lowest state with alcohol content, which is LAC_S. The bottom 5 lowest state with bitterness per beer, which is LB_S
+# Furtheremore, we proceed to plot HAC_S and HB_S. Previously we clean the data in order no to have repeated the same state
+# with the function distint.
 LAC_S<-tail(combined[order(combined$ABV, decreasing = T, na.last = F),],5)
 LAC_S
 ggplot(data=LAC_S, aes(x= reorder(State,-ABV), y=ABV, fill= IBU)) + geom_bar(stat="identity") + ggtitle("Lowest Alcohol Content per State") + labs(x= "States",  y= "Alcohol Content") + theme(axis.text.x = element_text(size =8, angle =45, hjust = 1, vjust = 1)) 
@@ -135,20 +153,20 @@ ggplot(data=LB_S, aes(x= reorder(State,-IBU), y=IBU, fill= ABV)) + geom_bar(stat
                   
 ## QUESTION 5: MAX IBU & ABV STATES
 
-## The following code show the state with the maximum alcoholic (ABV) beer, and the state with 
-## the most bitter (IBU) beer.The maximum alcoholic (ABV) beer, and bitter (IBU) beer is represented by maxal.
+# The following code show the state with the maximum alcoholic (ABV) beer, and the state with 
+# the most bitter (IBU) beer.The maximum alcoholic (ABV) beer, and bitter (IBU) beer is represented by maxal.
 
 
-#### Max ABV and IBU and the state
+##Max ABV and IBU and the state
  maxal<- sapply(plot1, max, na.rm = TRUE)
  maxal
  
-# Highest Alcohol Content is HAC, the highest alcohol content in its state is HAC_S
+# Highest Alcohol Content in a beer is HAC, the highest alcohol content in a beer in its state is HAC_S
 HAC<- head(beers[order(beers$ABV, decreasing = T, na.last = T),],1)
 HAC
 HAC_S<-head(combined[order(combined$ABV, decreasing = T, na.last = T),],1)
 HAC_S
-# Highest Bitterness is HB, the highest bitterness in its state is HB_S
+# Highest Bitterness in a beer is HB, the highest bitterness in a beer in its state is HB_S
 HB<-head(beers[order(beers$IBU, decreasing = T, na.last = T),],1)
 HB
 HB_S<-head(combined[order(combined$IBU, decreasing = T, na.last = T),],1)
@@ -156,8 +174,10 @@ HB_S
 
 ## QUESTION 6: SUMMARY STATS FOR ABV
 
-##Summary statistics for the ABV variable from the beers dataset. Median 0.056, mean 0.067.
-##Summary statistics for the IBU variable from the beers dataset. Median 35, mean 42.71. 
+# Summary statistics for the ABV variable from the beers dataset. Median 0.056, mean 0.067. We also show the boxplot of 
+# this summary
+# Summary statistics for the IBU variable from the beers dataset. Median 35, mean 42.71. We also show the boxplot of
+# this summary
 summary(beers$ABV)
 boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Alcohol Content", font.lab=3, col="darkgreen")
 summary(beers$IBU)
@@ -180,12 +200,12 @@ beer.lm <- lm(combined$IBU ~ combined$ABV, na.action(na.omit("NA")))
 summary(beer.lm)
 
                   
-## In the following code using ggplot we draw a scatter plot between the bitterness and alcohol content.
-## It look like there is a trend toward a llinear relatioship between the 2 mentioned variable, but it is poor.
+# In the following code using ggplot we draw a scatter plot between the bitterness and alcohol content.
+# It look like there is a trend toward a llinear relatioship between the 2 mentioned variable, but it is poor.
 ggplot(dat= plot1, aes(x= Alcohol_content, y= Bitterness)) + geom_point(shape=1) + geom_smooth(method = "lm") + ggtitle("Bitterness per Alcohol Content")  
 
-## In the following code we found the most frequent beers style and name in the US territory.BeersStyle is the most
-## frequent beer style. BeersName is the most frequent beers name in the US territory.
+# In the following code we found the most frequent beers style and beer name in the US territory.BeersStyle is the most
+# frequent beer style in the US territory. BeersName is the most frequent beers name in the US territory.
 beers %>% count(Style) %>% arrange(desc(n)) -> BeersStyle
 BeersStyle
 beers %>% count(Name) %>% arrange(desc(n)) -> BeersName
@@ -193,14 +213,15 @@ BeersName
 
 
 ## ADDITIONAL QUESTION USING CENSUS DATA
-## 2018 Census Data on https://www.census.gov 
+# 2018 Census Data on https://www.census.gov 
 
 read.csv(file = "data/population.csv", header = T) -> state_population
 state_population$State <- as.character(state_population$State)
 
-# Merging census data into brewery by state data, the merged data is combined_pop. We merged this data in order to have
-# the population per state and perform the calculation below.
+# Merging census data into brewery by state variable, the merged data is combined_pop. We merged this data in order
+# to have the population per state and perform the calculation below.
 # We compared the number of breweries with the state population. In order to find if the two are related.
+# We found poor or no relation betwenn the 2.
 merge(numBreweries, state_population, by = "State") -> combined_pop
 
 # Tests R correlation between Breweries & Total Population By State. Corr 0.6210315, poor correlation.
@@ -217,7 +238,7 @@ grid(plot(combined_pop$Population, combined_pop$numBreweries,main="Relationship 
 abline(brew_pop.lm, col = "red")
 
 #Examining correlation between Number of Breweries and Median Alcohol Content.The dataset albrew have the variable 
-# numbber of breweries from the dataset numBreweries created previously and the mediam alcohol content per bear from 
+# number of breweries from the dataset numBreweries created previously and the mediam alcohol content per bear from 
 # the dataset plot1 created before. So we combined the plot1 dataset and the numBreweries dataset. Furthermore, we 
 # proceeded to plot the relationship between the number of breweries and the median alcohol content. There is a poor 
 # correlation between median alcohol content and the population.
