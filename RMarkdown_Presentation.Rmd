@@ -1,5 +1,5 @@
 ---
-title: "Presentation"
+title: "Case Study 1"
 author: "Fabio"
 date: "6/24/2019"
 output: ioslides_presentation
@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 -SMU - DDS 6306
 
--Mombers: 
+-Members: 
   
   Fabio Savorgnan
   
@@ -80,6 +80,7 @@ Bottom 4 States: -DC -South Dakota -North Dakota -West Virginia
 g6
 ``` 
 
+
 ## Median Alcohol & Bitterness By State
 
 ```{r }
@@ -112,32 +113,28 @@ x3
 ```{r }
 x4
 ```
+
 ## Alcohol Content
-
-Highest Alcohol Beer
-
   -Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale
   
   -12.8% AB
   
   -Colorado
-  
 ```{r, echo=FALSE}
 boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Alcohol Content", font.lab=3, col="darkgreen")
-
 ```
 
 ## Highest Bitterness Beer
-
 -Bitter Bitch Imperial IPA
 
 -IBU of 138
 
 -Oregon
-
-```{r, }
+```{r,echo=FALSE }
 boxplot(beers$IBU, main=toupper("Bitterness in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Bitterness", font.lab=3, col="darkgreen")
 ```
+
+
 ## Correlation Between Bitterness & Alcohol Content
 
 -Correlation: 67.06%
