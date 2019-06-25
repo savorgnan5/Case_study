@@ -231,12 +231,12 @@ state_population$State <- as.character(state_population$State)
 # We found poor or no relation betwenn the 2.
 merge(numBreweries, state_population, by = "State") -> combined_pop
 
-# Tests R correlation between Breweries & Total Population By State. Corr 0.6210315, poor correlation.
+# Tests R correlation between Breweries & Total Population By State. Corr 0.6210315, moderate correlation.
 cor.test(combined_pop$Population, combined_pop$numBreweries)
 
 
 # Predicting number of breweries based on population. The population number poorly predict the number of breweries
-# Adjusted R-squared: 0.3731 
+# Adjusted R-squared: 0.3731, 38% approximately of the number of breweries can be explained by population 
 brew_pop.lm <- lm(combined_pop$numBreweries ~ combined_pop$Population)
 summary(brew_pop.lm)
 
@@ -256,6 +256,9 @@ head(albrew)
 grid(plot(albrew$numBreweries, albrew$Alcohol_content, main="Relationship Median Alcohol and Breweries", xlab = "Number of Breweries", ylab = "Median Alcohol Content"))
 abline(brew_pop.lm, col = "red")
 
+# Correlation between number of breweries and alcohol content: 0.1853568, poor correlation
+cor.test(albrew$numBreweries, albrew$Alcohol_content)
+
 # Examining correlation between population and median alcohol content.The dataset albrew have the variable 
 # numbber of breweries from the dataset numBreweries created previously and the mediam alcohol content per bear from 
 # the dataset plot1 created before. So we combined the albrew with the state_population datatset from the census bureau
@@ -266,6 +269,14 @@ merge(albrew, state_population, by = "State") ->alpop
 head(alpop)
 grid(plot(alpop$Population, alpop$Alcohol_content, main="Relationship Median Alcohol and Population", xlab = "Population", ylab = "Median Alcohol Content"))
 abline(brew_pop.lm, col = "red")
+
+# Correlation between population and median alcohol content: 0.07961581, moderate correlation
+cor.test(alpop$Population, alpop$Alcohol_content)
+
+# Prediction of alcohol content in base of population: Adjusted R-squared:  -0.01394, population pourly predict alcohol
+# content.
+alpot.lm <- lm(alpop$Population ~ alpop$Alcohol_content)
+summary(alpot.lm)
 
 # outputting file
 # write.csv(combined_pop, file = "casestudy/combined_pop.csv", row.names = F)

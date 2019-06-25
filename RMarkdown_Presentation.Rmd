@@ -1,6 +1,6 @@
 ---
 title: "Case Study 1"
-author: "Fabio"
+author: "Fabio Savorgnan"
 date: "6/24/2019"
 output: ioslides_presentation
 ---
@@ -44,15 +44,15 @@ knitr::opts_chunk$set(echo = FALSE)
   
 ## Introduction: Given the datasets Beer and Brews, we want to know
 
-- Where our headquarters should be?
+- ***Where our headquarters should be?***
 
-- What style and name of beer would appeal to the widest audience?
+- ***What style and name of beer would appeal to the widest audience?***
 
-- What ABV and IBU should be used for the production of beers?
+- ***What ABV and IBU should be used for the production of beers?***
 
 
 ## Combined Data Set
- - The first 6 aoservations
+ - ***The first 6 observations***
  
 ```{r,message=F, warning = F }
 library(kableExtra)
@@ -60,7 +60,7 @@ head(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'c
 
 ``` 
 ## Combined Data Set
-- The last 6 observations
+- ***The last 6 observations***
 
 ```{r,message=F, warning = F }
 library(kableExtra)
@@ -70,11 +70,11 @@ tail(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'c
 
 ## Missing values
 
-- Alcohol by Volume – 62 of 2410 entries were missing. ~2.57%
+- ***Alcohol by Volume – 62 of 2410 entries were missing. ~2.57%***
 
-- International Bitterness – 1005 of 2410 entries were missing. ~41.7%
+- ***International Bitterness – 1005 of 2410 entries were missing. ~41.7%***
 
-- NOTE: Bitterness data not available for South Dakota
+- ***NOTE: Bitterness data not available for South Dakota***
 
 
 ```{r }
@@ -122,92 +122,72 @@ x3 + theme_minimal()
 x4 + theme_minimal()
 ```
 
-## Alcohol Content
-  - Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale
+## Alcohol Content {.columns-2}
+  - ***Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale***
   
-  - 12.8% AB
+  - ***12.8% AB***
   
-  - Colorado
-```{r, echo=FALSE}
-boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Alcohol Content", font.lab=3, col="darkgreen") + theme_minimal()
+  - ***Colorado***
+```{r, echo=FALSE, out.width='480px'}
+boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Alcohol Content", font.lab=3, col="darkgreen") 
 ```
 
-## Highest Bitterness Beer
-- Bitter Bitch Imperial IPA
+## Highest Bitterness Beer {.columns-2}
+- ***Bitter Bitch Imperial IPA***
 
-- IBU of 138
+- ***IBU of 138***
 
-- Oregon
-```{r,echo=FALSE }
-boxplot(beers$IBU, main=toupper("Bitterness in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Bitterness", font.lab=3, col="darkgreen") + theme_minimal()
+- ***Oregon***
+```{r,echo=FALSE, out.width='480px'}
+boxplot(beers$IBU, main=toupper("Bitterness in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Bitterness", font.lab=3, col="darkgreen") 
 ```
 
 
-## Correlation Between Bitterness & Alcohol Content
+## Relationship Between Bitterness & Alcohol Content {.columns-2}
 
-- Correlation: 67.06%
+- ***Correlation: 67.06%***
 
-- R-squared: 44.97%
+- ***R-squared: 44.97%***
 
-- This shows a moderate correlation between the bitterness and strength of the alcohol. About 45% of the bitterness of a particular beer is accounted for by its alcohol content
+- ***This shows a moderate correlation between the bitterness and strength of the alcohol. About 45% of the bitterness of a particular beer is accounted for by its alcohol content***
 
-## Plot of the Relationship Between Bitterness & Alcohol Content
+```{r, echo=FALSE , out.width='450px'}
+grid(plot(combined$ABV, combined$IBU, main="Scatterplot Between Alcohol Content & Bitterness", xlab = "Alcohol Content", ylab = "Alcohol Bitterness"))
 
-```{r, echo=FALSE }
-grid(plot(combined$ABV, combined$IBU, main="Scatterplot Between Alcohol Content & Bitterness", xlab = "Alcohol Content", ylab = "Alcohol Bitterness")) + theme_minimal()
 ```
 
-## Additional Analysis : 2018 Census Data on https://www.census.gov 
 
-- Examining correlation between state population and number of breweries
+## Examining correlation between state population and number of breweries {.columns-2} 
 
-- There appears to be a moderate correlation of 62.1%
+- ***There appears to be a moderate correlation of 62.1%***
 
-- The R-squared value is 38.57% which means that almost 39% of the brewery density can be explained by the respective state’s total population
+- ***The R-squared value is 38.57% which means that almost 39% of the brewery density can be explained by the respective state’s total population***
 
-## Plotting the correlation between state population and number of breweries
-
-```{r,echo=FALSE }
+```{r, echo=FALSE, out.width='450px' }
 grid(plot(combined_pop$Population, combined_pop$numBreweries,main="Relationship of Breweries & Total Population", xlab = "Population by State", ylab = "Number of Breweries"))
-abline(brew_pop.lm, col = "red") + theme_minimal()
+abline(brew_pop.lm, col = "red") 
+
 ```
 
-## Additional Analysis
+## Correlation between number of breweries and median alcohol content
 
-- Examining correlation between number of breweries and median alcohol content
-
-```{r, echo=FALSE }
-numBreweries<-as.data.frame(numBreweries)
-plot1<-as.data.frame(plot1)
-albrew<- merge(plot1,numBreweries, by= "State")
-head(albrew)%>% kable %>% kable_styling(bootstrap_options = 'striped') 
-```
-## Plotting the correlation between number of breweries and median alcohol content
+- ***Cor : 0.1853568***
 
 ```{r, echo=FALSE }
 grid(plot(albrew$numBreweries, albrew$Alcohol_content, main="Relationship Median Alcohol and Breweries", xlab = "Number of Breweries", ylab = "Median Alcohol Content"))
 abline(brew_pop.lm, col = "red") 
 ```
 
-## Additional Analysis : 2018 Census Data on https://www.census.gov 
-
-- Examining correlation between population and median alcohol content
-
-```{r, echo=FALSE }
-merge(albrew, state_population, by = "State") ->alpop 
-head(alpop)%>% kable %>% kable_styling(bootstrap_options = 'striped') 
-```
-
-## Plotting the  correlation between population and median alcohol content
-
+## Correlation between population and median alcohol content
+- ***Corr : 0.07961581. Adjusted R-squared:  -0.01394***
 ```{r, echo=FALSE }
 grid(plot(alpop$Population, alpop$Alcohol_content, main="Relationship Median Alcohol and Population", xlab = "Population", ylab = "Median Alcohol Content"))
-abline(brew_pop.lm, col = "red") + theme_minimal()
+abline(brew_pop.lm, col = "red") 
 ```
 
 ## Most popular beer style in the US
 
-***Most popular beer  style in the US: American IPA.*** 
+- ***Most popular beer  style in the US: American IPA.*** 
 
 ```{r, echo=FALSE }
 beers %>% count(Style) %>% arrange(desc(n)) -> BeersStyle
@@ -216,7 +196,7 @@ head(BeersStyle, 1)%>% kable %>% kable_styling(bootstrap_options = 'striped')
 
 ## Most popular beer name in the US
 
-***Most popular beer name in the US: Nonstop Hef Hop***
+- ***Most popular beer name in the US: Nonstop Hef Hop***
 
 ```{r, echo=FALSE }
 beers %>% count(Name) %>% arrange(desc(n)) -> BeersName
@@ -224,20 +204,17 @@ head(BeersName,1)%>% kable %>% kable_styling(bootstrap_options = 'striped')
 ```
 
 
-## Conclusion 1
+## Conclusion 
 
-- ***We will recommend to have the headquarter in a state with the lowest amount of breweries which is Mississippi.***
+- ***Headquarter in Mississippi.***
 
-- ***The style of beer that we would recommend will be American IPA. We found American IPA to be the most***
- ***popular style.***
+- ***The style of beer American IPA. ***
 
-- ***The name of the beer that we will recommend will be Nonstop Hef Hop. We found Nonstop Hef Hop to be*** 
-***the most popular beer name.***
+- ***The name of the beer Nonstop Hef Hop.***
 
-- ***According to our statistic summary from ABV and IBU , for an average ABV beer at 0.06 the recommended***
-***IBU is roughly 40.***
+- ***For an average ABV beer at 0.06 the recommended IBU is roughly 40.***
 
-- ***We will recommend to target the states with less breweries regardless of the population, because we did not find any strong  correlation between the population and the amount of breweries.***
+- ***Location where is less breweries regardless of the population.***
 
 
 ## Questions
