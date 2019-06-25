@@ -13,11 +13,11 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Case Study 1
 
--Bitterness & Concentration Across US Breweries
+-***Bitterness & Concentration Across US Breweries***
 
--SMU - DDS 6306
+-***SMU - DDS 6306***
 
--Members: 
+-***Members:*** 
   
   Fabio Savorgnan
   
@@ -25,22 +25,22 @@ knitr::opts_chunk$set(echo = FALSE)
 
 
 ## Overview
--Beer Data Set                                                     
+-***Beer Data Set***                                                     
 
-Name: Name of the beer.
-Beer_ID: Unique identifier of the beer.
-ABV: Alcohol by volume of the beer.
-IBU: International Bitterness Units of the beer.
-Brewery_ID: Brewery id associated with the beer.
-Style: Style of the beer.
-Ounces: Ounces of beer.
+**Name:** Name of the beer.
+**Beer_ID:** Unique identifier of the beer.
+**ABV:** Alcohol by volume of the beer.
+**IBU:** International Bitterness Units of the beer.
+**Brewery_ID:** Brewery id associated with the beer.
+**Style:** Style of the beer.
+**Ounces:** Ounces of beer.
 
--Brewery Data Set
+-***Brewery Data Set***
 
-Brew_ID: Unique identifier of the brewery.
-Name: Name of the brewery.
-City: City where the brewery is located.
-State: U.S. State where the brewery is located.
+**Brew_ID:** Unique identifier of the brewery.
+**Name:** Name of the brewery.
+**City:** City where the brewery is located.
+**State:** U.S. State where the brewery is located.
   
 ## Introduction: Given the datasets Beer and Brews, we want to know
 
@@ -56,14 +56,14 @@ State: U.S. State where the brewery is located.
  
 ```{r,message=F, warning = F }
 library(kableExtra)
-head(combined, 6)
+head(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'condensed'), font_size = 12)
 ``` 
 ## Combined Data Set
 -The last 6 observations
 
 ```{r,message=F, warning = F }
 library(kableExtra)
-tail(combined, 6)
+tail(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'condensed'), font_size = 12)
 ``` 
 
 ## Missing values
@@ -76,14 +76,14 @@ tail(combined, 6)
 
 
 ```{r }
-na_count
+na_count%>% kable %>% kable_styling(bootstrap_options = c('striped', 'condensed'), font_size = 11)
 ``` 
 ## Breweries Per State
-Top 4 States: -Colorado -California -Michigan -Oregon
+***Top 4 States:*** -Colorado -California -Michigan -Oregon
 
-Bottom 4 States: -DC -South Dakota -North Dakota -West Virginia
+***Bottom 4 States:*** -DC -South Dakota -North Dakota -West Virginia
 ```{r }
-g6
+p3
 ``` 
 
 
@@ -170,7 +170,7 @@ grid(plot(combined_pop$Population, combined_pop$numBreweries,main="Relationship 
 abline(brew_pop.lm, col = "red")
 ```
 
-## Additional Analysis : 2018 Census Data on https://www.census.gov 
+## Additional Analysis
 
 -Examining correlation between number of breweries and median alcohol content
 
@@ -205,7 +205,7 @@ abline(brew_pop.lm, col = "red")
 
 ## Most popular beer style in the US
 
-Most popular beer  style in the US: American IPA. 
+***Most popular beer  style in the US: American IPA.*** 
 
 ```{r, echo=FALSE }
 beers %>% count(Style) %>% arrange(desc(n)) -> BeersStyle
@@ -214,7 +214,7 @@ head(BeersStyle, 1)%>% kable %>% kable_styling(bootstrap_options = 'striped')
 
 ## Most popular beer name in the US
 
-Most popular beer name in the US: Nonstop Hef Hop
+***Most popular beer name in the US: Nonstop Hef Hop***
 
 ```{r, echo=FALSE }
 beers %>% count(Name) %>% arrange(desc(n)) -> BeersName
@@ -224,19 +224,18 @@ head(BeersName,1)%>% kable %>% kable_styling(bootstrap_options = 'striped')
 
 ## Conclusion 1
 
--We will recommend to have the headquarter in a state with the lowest amount of breweries which is Mississippi
+-***We will recommend to have the headquarter in a state with the lowest amount of breweries which is Mississippi.***
 
--The style of beer that we would recommend will be American IPA. We found American IPA to be the most
- popular style
+-***The style of beer that we would recommend will be American IPA. We found American IPA to be the most***
+ ***popular style.***
 
--The name of the beer that we will recommend will be Nonstop Hef Hop. We found Nonstop Hef Hop to be 
-the most popular beer name
+-***The name of the beer that we will recommend will be Nonstop Hef Hop. We found Nonstop Hef Hop to be*** 
+***the most popular beer name.***
 
--According to our statistic summary from ABV and IBU , for an average ABV beer at 0.06 the recommended
-IBU is roughly 40.
+-***According to our statistic summary from ABV and IBU , for an average ABV beer at 0.06 the recommended***
+***IBU is roughly 40.***
 
--We will recommend to target the states with less breweries regardless of the population, because we did not find 
-any strong  correlation between the population and the amount of breweries
+-***We will recommend to target the states with less breweries regardless of the population, because we did not find any strong  correlation between the population and the amount of breweries.***
 
 
 ## The End

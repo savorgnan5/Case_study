@@ -215,6 +215,13 @@ BeersName
 ## ADDITIONAL QUESTION USING CENSUS DATA
 # 2018 Census Data on https://www.census.gov 
 
+#2018 Census Data:
+
+#StateFull: State Name.
+#State: Abreviation of the state name.
+#Population: Population number integer.
+
+
 read.csv(file = "data/population.csv", header = T) -> state_population
 state_population$State <- as.character(state_population$State)
 
