@@ -24,23 +24,32 @@ knitr::opts_chunk$set(echo = FALSE)
   Jeremy Otsap
 
 
-## Overview
-- ***Beer Data Set***                                                     
+## Overview{.columns-2}
+- **Beer Data Set**
 
-**Name:** Name of the beer.
-**Beer_ID:** Unique identifier of the beer.
-**ABV:** Alcohol by volume of the beer.
-**IBU:** International Bitterness Units of the beer.
-**Brewery_ID:** Brewery id associated with the beer.
-**Style:** Style of the beer.
-**Ounces:** Ounces of beer.
+Name
+
+Beer_ID
+
+ABV
+
+IBU
+
+Brewery_ID
+
+Style 
+
+Ounces 
 
 - ***Brewery Data Set***
 
-**Brew_ID:** Unique identifier of the brewery.
-**Name:** Name of the brewery.
-**City:** City where the brewery is located.
-**State:** U.S. State where the brewery is located.
+Brew_ID 
+
+Name 
+
+City 
+
+State
   
 ## Introduction: Given the datasets Beer and Brews, we want to know
 
@@ -55,16 +64,18 @@ knitr::opts_chunk$set(echo = FALSE)
  - ***The first 6 observations***
  
 ```{r,message=F, warning = F }
+
 library(kableExtra)
-head(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'condensed'), font_size = 12)
+head(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'condensed'), font_size = 8)
 
 ``` 
 ## Combined Data Set
 - ***The last 6 observations***
 
 ```{r,message=F, warning = F }
+
 library(kableExtra)
-tail(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'condensed'), font_size = 12)
+tail(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'condensed'), font_size = 8)
 
 ``` 
 
@@ -124,9 +135,7 @@ x4 + theme_minimal()
 
 ## Alcohol Content {.columns-2}
   - ***Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale***
-  
   - ***12.8% AB***
-  
   - ***Colorado***
 ```{r, echo=FALSE, out.width='480px'}
 boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Alcohol Content", font.lab=3, col="darkgreen") 
@@ -134,9 +143,7 @@ boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.ma
 
 ## Highest Bitterness Beer {.columns-2}
 - ***Bitter Bitch Imperial IPA***
-
 - ***IBU of 138***
-
 - ***Oregon***
 ```{r,echo=FALSE, out.width='480px'}
 boxplot(beers$IBU, main=toupper("Bitterness in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Bitterness", font.lab=3, col="darkgreen") 
@@ -169,15 +176,6 @@ abline(brew_pop.lm, col = "red")
 
 ```
 
-## Correlation between number of breweries and median alcohol content
-
-- ***Cor : 0.1853568***
-
-```{r, echo=FALSE }
-grid(plot(albrew$numBreweries, albrew$Alcohol_content, main="Relationship Median Alcohol and Breweries", xlab = "Number of Breweries", ylab = "Median Alcohol Content"))
-abline(brew_pop.lm, col = "red") 
-```
-
 ## Correlation between population and median alcohol content
 - ***Corr : 0.07961581. Adjusted R-squared:  -0.01394***
 ```{r, echo=FALSE }
@@ -187,7 +185,7 @@ abline(brew_pop.lm, col = "red")
 
 ## Most popular beer style in the US
 
-- ***Most popular beer  style in the US: American IPA.*** 
+
 
 ```{r, echo=FALSE }
 beers %>% count(Style) %>% arrange(desc(n)) -> BeersStyle
@@ -196,7 +194,7 @@ head(BeersStyle, 1)%>% kable %>% kable_styling(bootstrap_options = 'striped')
 
 ## Most popular beer name in the US
 
-- ***Most popular beer name in the US: Nonstop Hef Hop***
+
 
 ```{r, echo=FALSE }
 beers %>% count(Name) %>% arrange(desc(n)) -> BeersName
@@ -206,7 +204,7 @@ head(BeersName,1)%>% kable %>% kable_styling(bootstrap_options = 'striped')
 
 ## Conclusion 
 
-- ***Headquarter in Mississippi.***
+- ***Headquarter in West Virginia.***
 
 - ***The style of beer American IPA. ***
 
@@ -214,7 +212,6 @@ head(BeersName,1)%>% kable %>% kable_styling(bootstrap_options = 'striped')
 
 - ***For an average ABV beer at 0.06 the recommended IBU is roughly 40.***
 
-- ***Location where is less breweries regardless of the population.***
 
 
 ## Questions

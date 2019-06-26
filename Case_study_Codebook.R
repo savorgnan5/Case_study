@@ -270,7 +270,7 @@ head(alpop)
 grid(plot(alpop$Population, alpop$Alcohol_content, main="Relationship Median Alcohol and Population", xlab = "Population", ylab = "Median Alcohol Content"))
 abline(brew_pop.lm, col = "red")
 
-# Correlation between population and median alcohol content: 0.07961581, moderate correlation
+# Correlation between population and median alcohol content: 0.07961581, poor correlation
 cor.test(alpop$Population, alpop$Alcohol_content)
 
 # Prediction of alcohol content in base of population: Adjusted R-squared:  -0.01394, population pourly predict alcohol
