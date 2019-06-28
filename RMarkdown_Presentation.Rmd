@@ -13,9 +13,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Beer Study
 
-- ***Bitterness & Concentration Across US Breweries***
-
-- ***SMU - DDS 6306***
+- ***Bitterness & Alcohol Concentration Across US Breweries***
 
 - ***Members:*** 
   
@@ -178,13 +176,6 @@ grid(plot(combined$ABV, combined$IBU, main="Scatterplot Between Alcohol Content 
 grid(plot(combined_pop$Population, combined_pop$numBreweries,main="Relationship of Breweries & Total Population", xlab = "Population by State", ylab = "Number of Breweries"))
 abline(brew_pop.lm, col = "red") 
 
-```
-
-## Correlation between population and median alcohol content
-- ***Corr : 0.07961581. Adjusted R-squared:  -0.01394***
-```{r, echo=FALSE }
-grid(plot(alpop$Population, alpop$Alcohol_content, main="Relationship Median Alcohol and Population", xlab = "Population", ylab = "Median Alcohol Content"))
-abline(brew_pop.lm, col = "red") 
 ```
 
 ## Most popular beer style and name in the US
