@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Beer Study
 
-- ***Bitterness & Alcohol Concentration Across US Breweries***
+- ***Breweries in the US Territory***
 
 - ***Members:*** 
   
