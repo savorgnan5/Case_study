@@ -1,5 +1,5 @@
 ---
-title: "Case Study 1"
+title: "Beer Study"
 author: "Fabio Savorgnan"
 date: "6/24/2019"
 output: ioslides_presentation
@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-## Case Study 1
+## Beer Study
 
 - ***Bitterness & Concentration Across US Breweries***
 
@@ -81,9 +81,13 @@ tail(combined, 6)%>% kable %>% kable_styling(bootstrap_options = c('striped', 'c
 
 ## Missing values
 
-- ***Alcohol by Volume – 62 of 2410 entries were missing. ~2.57%***
+- ***Alcohol by Volume – 62 of 2410 entries were missing.***
 
-- ***International Bitterness – 1005 of 2410 entries were missing. ~41.7%***
+***~2.57%***
+
+- ***International Bitterness – 1005 of 2410 entries were missing.*** 
+
+**~41.7%***
 
 - ***NOTE: Bitterness data not available for South Dakota***
 
@@ -133,19 +137,19 @@ x3 + theme_minimal()
 x4 + theme_minimal()
 ```
 
-## Alcohol Content {.columns-2}
+## Alcohol Content 
   - ***Lee Hill Series Vol. 5 - Belgian Style Quadrupel Ale***
   - ***12.8% AB***
   - ***Colorado***
-```{r, echo=FALSE, out.width='480px'}
+```{r, echo=FALSE }
 boxplot(beers$ABV, main=toupper("Alcohol Content in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Alcohol Content", font.lab=3, col="darkgreen") 
 ```
 
-## Highest Bitterness Beer {.columns-2}
+## Highest Bitterness Beer 
 - ***Bitter Bitch Imperial IPA***
 - ***IBU of 138***
 - ***Oregon***
-```{r,echo=FALSE, out.width='480px'}
+```{r,echo=FALSE }
 boxplot(beers$IBU, main=toupper("Bitterness in Beers"), font.main=3, cex.main=1.2, xlab="Beers", ylab="Bitterness", font.lab=3, col="darkgreen") 
 ```
 
@@ -183,23 +187,19 @@ grid(plot(alpop$Population, alpop$Alcohol_content, main="Relationship Median Alc
 abline(brew_pop.lm, col = "red") 
 ```
 
-## Most popular beer style in the US
+## Most popular beer style and name in the US
 
+- Most popular beer style
 
+- Most popular beer name in the US
 
 ```{r, echo=FALSE }
 beers %>% count(Style) %>% arrange(desc(n)) -> BeersStyle
 head(BeersStyle, 1)%>% kable %>% kable_styling(bootstrap_options = 'striped') 
-```
-
-## Most popular beer name in the US
-
-
-
-```{r, echo=FALSE }
 beers %>% count(Name) %>% arrange(desc(n)) -> BeersName
 head(BeersName,1)%>% kable %>% kable_styling(bootstrap_options = 'striped') 
 ```
+
 
 
 ## Conclusion 
