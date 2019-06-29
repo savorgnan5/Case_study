@@ -205,4 +205,4 @@ head(BeersName,1)%>% kable %>% kable_styling(bootstrap_options = 'striped')
 
 
 
-## Questions
+## Link to the presentation https://youtu.be/S--JSlG40wM
