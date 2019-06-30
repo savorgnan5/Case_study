@@ -25,3 +25,10 @@ breweries.csv:
 *	Name: Name of the brewery.
 *	City: City where the brewery is located.
 *	State: U.S. State where the brewery is located.
+  
+population.csv:  
+2018 Census Data on https://www.census.gov  
+
+* StateFull: Full state name  
+* State: Two letter abbreviation  
+* Population: Total residents in the state as per 2018  
