@@ -8,6 +8,6 @@ BONUS: PowerBI Dashboard
 For any questions about the individual project please contact: jotsap@smu.edu  
 
 ### YouTube Video  
-https://  
+https://youtu.be/gBMKGIwA6kU  
   
 For information on the SMU Data Science program please see: https://datascience.smu.edu
