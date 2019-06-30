@@ -3,7 +3,7 @@
 https://datascience.smu.edu
   
 Fabio Savorgnan  
-Jeremy Otsap  
+Jeremy Otsap [please see **"JeremyFinal"** directory for final presentation & HTML files]
   
 ### Description  
   
